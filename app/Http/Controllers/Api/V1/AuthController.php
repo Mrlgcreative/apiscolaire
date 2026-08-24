@@ -32,7 +32,7 @@ class AuthController extends Controller
         }
 
         if ($user->locked) {
-            $user->update(['locked' => false, 'lock_expiry' => null]);
+            $user->forceFill(['locked' => false, 'lock_expiry' => null])->save();
         }
 
         $token = $user->createToken(

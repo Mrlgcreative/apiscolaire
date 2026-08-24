@@ -21,7 +21,7 @@ class AbsenceController extends Controller
             ->when($request->filled('date_debut'), fn ($q) => $q->where('date_absence', '>=', $request->date_debut))
             ->when($request->filled('date_fin'), fn ($q) => $q->where('date_absence', '<=', $request->date_fin))
             ->latest('date_absence')
-            ->paginate($request->integer('per_page', 15))
+            ->paginate(min(max($request->integer('per_page', 15), 1), 100))
             ->withQueryString();
 
         return AbsenceResource::collection($absences);

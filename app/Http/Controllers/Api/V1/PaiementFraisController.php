@@ -23,7 +23,7 @@ class PaiementFraisController extends Controller
             ->when($request->filled('classe_id'), fn ($q) => $q->where('classe_id', $request->classe_id))
             ->when($request->filled('statut'), fn ($q) => $q->where('statut', $request->statut))
             ->latest('payment_date')
-            ->paginate($request->integer('per_page', 15))
+            ->paginate(min(max($request->integer('per_page', 15), 1), 100))
             ->withQueryString();
 
         return PaiementFraisResource::collection($paiements);

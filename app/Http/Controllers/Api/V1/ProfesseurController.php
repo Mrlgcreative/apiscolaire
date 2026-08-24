@@ -24,7 +24,7 @@ class ProfesseurController extends Controller
                     ->orWhere('prenom', 'like', $term));
             })
             ->orderBy('nom')
-            ->paginate($request->integer('per_page', 15))
+            ->paginate(min(max($request->integer('per_page', 15), 1), 100))
             ->withQueryString();
 
         return ProfesseurResource::collection($professeurs);

@@ -33,7 +33,7 @@ class EleveController extends Controller
                     ->orWhere('matricule', 'like', $term));
             })
             ->latest()
-            ->paginate($request->integer('per_page', 15))
+            ->paginate(min(max($request->integer('per_page', 15), 1), 100))
             ->withQueryString();
 
         return EleveResource::collection($eleves);
