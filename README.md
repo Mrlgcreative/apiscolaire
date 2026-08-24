@@ -12,11 +12,13 @@ Chaque école (institution) dispose de ses données isolées : élèves, classes
 
 ## Installation
 
+Prérequis : PHP ≥ 8.4, Composer, MySQL (base `utf8mb4`).
+
 ```bash
 composer install
 cp .env.example .env
 php artisan key:generate
-touch database/database.sqlite
+mysql -e "CREATE DATABASE apiscolaire CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"
 php artisan migrate --seed
 php artisan serve
 ```
