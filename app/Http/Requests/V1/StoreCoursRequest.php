@@ -20,9 +20,9 @@ class StoreCoursRequest extends FormRequest
             'section' => ['required', 'in:maternelle,primaire,secondaire'],
             'coefficient' => ['nullable', 'integer', 'min:1', 'max:10'],
             'heures_semaine' => ['nullable', 'integer', 'min:1', 'max:40'],
-            'professeur_id' => ['nullable', 'integer', new TenantExists('professeurs')],
-            'classe_id' => ['required', 'integer', new TenantExists('classes')],
-            'option_id' => ['nullable', 'integer', 'exists:options,id'],
+            'professeur_id' => ['nullable', 'uuid', new TenantExists('professeurs')],
+            'classe_id' => ['required', 'uuid', new TenantExists('classes')],
+            'option_id' => ['nullable', 'uuid', 'exists:options,id'],
         ];
     }
 }

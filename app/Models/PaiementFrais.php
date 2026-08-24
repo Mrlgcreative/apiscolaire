@@ -4,12 +4,14 @@ namespace App\Models;
 
 use App\Enums\StatutPaiement;
 use App\Models\Concerns\BelongsToInstitution;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PaiementFrais extends Model
 {
     use BelongsToInstitution;
+    use HasUuids;
 
     protected $table = 'paiements_frais';
 

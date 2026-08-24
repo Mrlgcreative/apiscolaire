@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('institutions', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('nom', 150);
             $table->string('code', 10)->unique();
             $table->string('type', 50)->default('ecole');
@@ -22,7 +22,7 @@ return new class extends Migration
         });
 
         $addInstitution = function (Blueprint $table) {
-            $table->foreignId('institution_id')->nullable()->after('id')
+            $table->foreignUuid('institution_id')->nullable()->after('id')
                 ->constrained('institutions')->cascadeOnDelete();
         };
 

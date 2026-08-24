@@ -27,7 +27,7 @@ class UserController extends Controller
                 fn ($q, $id) => $q->where('institution_id', $id),
                 fn ($q) => $q->when(
                     $request->filled('institution_id'),
-                    fn ($qq) => $qq->where('institution_id', $request->integer('institution_id')),
+                    fn ($qq) => $qq->where('institution_id', $request->string('institution_id')),
                 ),
             )
             ->when($request->filled('role'), fn ($q) => $q->where('role', $request->role))
@@ -59,7 +59,7 @@ class UserController extends Controller
         } elseif ($actor->isSchoolAdmin()) {
             $data['institution_id'] = $actor->institution_id;
         } elseif ($request->filled('institution_id')) {
-            $institution = Institution::find($request->integer('institution_id'));
+            $institution = Institution::find($request->string('institution_id'));
             abort_unless($institution !== null, 422, 'Institution inconnue.');
             $data['institution_id'] = $institution->id;
         }
@@ -85,7 +85,7 @@ class UserController extends Controller
 
         // Seul le super-admin peut déplacer un compte vers une autre école.
         if ($request->user()->isGroupAdmin() && $request->filled('institution_id')) {
-            $institution = Institution::find($request->integer('institution_id'));
+            $institution = Institution::find($request->string('institution_id'));
             abort_unless($institution !== null, 422, 'Institution inconnue.');
             $data['institution_id'] = $institution->id;
         }

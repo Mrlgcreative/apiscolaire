@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class SessionScolaire extends Model
 {
+    use HasUuids;
+
     protected $table = 'sessions_scolaires';
 
     protected $fillable = ['annee_debut', 'annee_fin', 'libelle', 'est_active'];

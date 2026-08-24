@@ -15,9 +15,9 @@ class StorePaiementFraisRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'eleve_id' => ['required', 'integer', new TenantExists('eleves')],
-            'frais_id' => ['required', 'integer', new TenantExists('frais')],
-            'moi_id' => ['required', 'integer', 'exists:mois,id'],
+            'eleve_id' => ['required', 'uuid', new TenantExists('eleves')],
+            'frais_id' => ['required', 'uuid', new TenantExists('frais')],
+            'moi_id' => ['required', 'uuid', 'exists:mois,id'],
             'amount_paid' => ['required', 'numeric', 'min:0.01'],
             'payment_date' => ['required', 'date'],
             'statut' => ['nullable', 'in:paye,impaye'],

@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use App\Models\Concerns\BelongsToInstitution;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Absence extends Model
 {
     use BelongsToInstitution;
+    use HasUuids;
 
     protected $fillable = ['eleve_id', 'date_absence', 'motif', 'justifiee'];
 

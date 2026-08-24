@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\Section;
 use App\Models\Concerns\BelongsToInstitution;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Classe extends Model
 {
     use BelongsToInstitution;
+    use HasUuids;
 
     protected $fillable = ['nom', 'section', 'niveau', 'titulaire', 'professeur_id'];
 

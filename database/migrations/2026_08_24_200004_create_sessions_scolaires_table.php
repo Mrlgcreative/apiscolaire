@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sessions_scolaires', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->unsignedSmallInteger('annee_debut');
             $table->unsignedSmallInteger('annee_fin');
             $table->string('libelle', 100);

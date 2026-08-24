@@ -19,7 +19,7 @@ class StoreClasseRequest extends FormRequest
             'section' => ['required', 'in:maternelle,primaire,secondaire'],
             'niveau' => ['nullable', 'string', 'max:50'],
             'titulaire' => ['nullable', 'string', 'max:150'],
-            'professeur_id' => ['nullable', 'integer', new TenantExists('professeurs')],
+            'professeur_id' => ['nullable', 'uuid', new TenantExists('professeurs')],
         ];
     }
 }

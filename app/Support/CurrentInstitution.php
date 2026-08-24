@@ -9,7 +9,7 @@ namespace App\Support;
 final class CurrentInstitution
 {
     public function __construct(
-        public readonly ?int $id = null,
+        public readonly ?string $id = null,
         public readonly ?string $code = null,
     ) {}
 
@@ -18,7 +18,7 @@ final class CurrentInstitution
         return $this->id !== null;
     }
 
-    public function with(?int $id, ?string $code): self
+    public function with(?string $id, ?string $code): self
     {
         return new self($id, $code);
     }

@@ -4,12 +4,14 @@ namespace App\Models;
 
 use App\Enums\Section;
 use App\Models\Concerns\BelongsToInstitution;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Cours extends Model
 {
     use BelongsToInstitution;
+    use HasUuids;
 
     protected $fillable = [
         'titre', 'description', 'section', 'coefficient',
