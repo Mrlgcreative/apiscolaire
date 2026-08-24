@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\ClasseController;
 use App\Http\Controllers\Api\V1\CoursController;
 use App\Http\Controllers\Api\V1\EleveController;
 use App\Http\Controllers\Api\V1\FraisController;
+use App\Http\Controllers\Api\V1\GatewayController;
 use App\Http\Controllers\Api\V1\InstitutionController;
 use App\Http\Controllers\Api\V1\MoisController;
 use App\Http\Controllers\Api\V1\OptionController;
@@ -22,6 +23,9 @@ Route::prefix('v1')->group(function () {
     Route::middleware(['auth:sanctum', 'institution'])->group(function () {
         Route::get('/auth/me', [AuthController::class, 'me']);
         Route::post('/auth/logout', [AuthController::class, 'logout']);
+
+        // Passerelle RPC : toutes les opérations via un point d'entrée unique.
+        Route::post('/gateway', GatewayController::class)->name('gateway');
 
         // Groupe (admin uniquement)
         Route::apiResource('institutions', InstitutionController::class);

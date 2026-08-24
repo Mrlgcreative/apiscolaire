@@ -56,7 +56,21 @@ class AbsenceController extends Controller
 
     public function update(StoreAbsenceRequest $request, Absence $absence): AbsenceResource
     {
-        $absence->update($request->validated());
+        $conflit = Absence::whereKeyNot($absence->getKey())
+            ->where('eleve_id', $request->eleve_id)
+            ->whereDate('date_absence', $request->date_absence)
+            ->exists();
+
+        if ($conflit) {
+            return response()->json([
+                'message' => 'Une absence est déjà enregistrée pour cet élève à cette date.',
+            ], 409);
+        }
+
+        $absence->update([
+            ...$request->validated(),
+            'justifiee' => $request->boolean('justifiee'),
+        ]);
 
         return new AbsenceResource($absence->load('eleve'));
     }
