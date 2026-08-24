@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Models;
+
+use App\Enums\Section;
+use App\Models\Concerns\BelongsToInstitution;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Cours extends Model
+{
+    use BelongsToInstitution;
+
+    protected $fillable = [
+        'titre', 'description', 'section', 'coefficient',
+        'heures_semaine', 'professeur_id', 'classe_id', 'option_id',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'section' => Section::class,
+        ];
+    }
+
+    public function professeur(): BelongsTo
+    {
+        return $this->belongsTo(Professeur::class);
+    }
+
+    public function classe(): BelongsTo
+    {
+        return $this->belongsTo(Classe::class);
+    }
+
+    public function option(): BelongsTo
+    {
+        return $this->belongsTo(Option::class);
+    }
+}
