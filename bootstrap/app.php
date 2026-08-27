@@ -21,6 +21,9 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->redirectGuestsTo(fn () => null);
 
+        // CORS pour /api/* (config/cors.php)
+        $middleware->api(prepend: [\Illuminate\Http\Middleware\HandleCors::class]);
+
         $middleware->alias([
             'institution' => ResolveInstitution::class,
         ]);
