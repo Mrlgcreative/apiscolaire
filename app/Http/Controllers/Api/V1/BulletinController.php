@@ -83,7 +83,7 @@ class BulletinController extends Controller
                 }
             }
             $lignes[] = [
-                'cours' => ['id' => $cours->id, 'titre' => $cours->titre, 'coefficient' => $cours->coefficient],
+                'cours' => ['id' => $cours->id, 'titre' => $cours->titre, 'coefficient' => $cours->coefficient, 'domaine' => $cours->domaine?->value],
                 'notes' => $notesCours,
                 'total' => round($total, 2),
                 'maxTotal' => $maxTotal,

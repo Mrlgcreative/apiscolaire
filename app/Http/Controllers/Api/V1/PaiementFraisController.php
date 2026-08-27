@@ -17,10 +17,11 @@ class PaiementFraisController extends Controller
     public function index(Request $request): AnonymousResourceCollection
     {
         $paiements = PaiementFrais::query()
-            ->with(['eleve.classe', 'frais', 'mois'])
+            ->with(['eleve.classe', 'frais', 'mois', 'user'])
             ->when($request->filled('eleve_id'), fn ($q) => $q->where('eleve_id', $request->eleve_id))
             ->when($request->filled('moi_id'), fn ($q) => $q->where('moi_id', $request->moi_id))
             ->when($request->filled('classe_id'), fn ($q) => $q->where('classe_id', $request->classe_id))
+            ->when($request->filled('session_scolaire_id'), fn ($q) => $q->where('session_scolaire_id', $request->session_scolaire_id))
             ->when($request->filled('statut'), fn ($q) => $q->where('statut', $request->statut))
             ->latest('payment_date')
             ->paginate(min(max($request->integer('per_page', 15), 1), 100))
@@ -31,8 +32,21 @@ class PaiementFraisController extends Controller
 
     public function store(StorePaiementFraisRequest $request): JsonResponse
     {
-        $paiement = DB::transaction(function () use ($request) {
-            $data = $request->validated();
+        $data = $request->validated();
+
+        $duplicate = PaiementFrais::query()
+            ->where('eleve_id', $data['eleve_id'])
+            ->where('frais_id', $data['frais_id'])
+            ->where('moi_id', $data['moi_id'])
+            ->exists();
+
+        if ($duplicate) {
+            return response()->json([
+                'message' => 'Ce mois est déjà enregistré pour cet élève et ce frais.',
+            ], 409);
+        }
+
+        $paiement = DB::transaction(function () use ($request, $data) {
             $eleve = Eleve::findOrFail($data['eleve_id']);
 
             return PaiementFrais::create([
@@ -44,7 +58,7 @@ class PaiementFraisController extends Controller
             ]);
         });
 
-        return (new PaiementFraisResource($paiement->load(['eleve', 'frais', 'mois'])))
+        return (new PaiementFraisResource($paiement->load(['eleve', 'frais', 'mois', 'user'])))
             ->response()
             ->setStatusCode(201);
     }

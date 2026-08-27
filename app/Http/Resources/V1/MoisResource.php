@@ -13,6 +13,7 @@ class MoisResource extends JsonResource
             'id' => $this->id,
             'nom' => $this->nom,
             'ordre' => $this->ordre,
+            'session_scolaire_id' => $this->session_scolaire_id,
         ];
     }
 }

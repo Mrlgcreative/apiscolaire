@@ -18,6 +18,7 @@ class PaiementFrais extends Model
     protected $fillable = [
         'eleve_id', 'frais_id', 'moi_id', 'classe_id',
         'amount_paid', 'payment_date', 'statut', 'session_scolaire_id', 'user_id',
+        'institution_id',
     ];
 
     protected function casts(): array

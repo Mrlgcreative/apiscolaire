@@ -14,7 +14,7 @@ class Classe extends Model
     use BelongsToInstitution;
     use HasUuids;
 
-    protected $fillable = ['nom', 'section', 'niveau', 'titulaire', 'professeur_id'];
+    protected $fillable = ['nom', 'section', 'niveau', 'titulaire', 'professeur_id', 'institution_id'];
 
     protected function casts(): array
     {

@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
     'matricule', 'nom', 'post_nom', 'prenom', 'date_naissance', 'sexe',
     'lieu_naissance', 'adresse', 'section', 'option_id', 'classe_id',
     'session_scolaire_id', 'nom_pere', 'nom_mere', 'contact_pere',
-    'contact_mere', 'statut', 'photo',
+    'contact_mere', 'statut', 'est_reinscrit', 'photo', 'institution_id',
 ])]
 class Eleve extends Model
 {
@@ -35,6 +35,7 @@ class Eleve extends Model
         return [
             'date_naissance' => 'date',
             'section' => Section::class,
+            'est_reinscrit' => 'boolean',
         ];
     }
 

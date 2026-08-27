@@ -19,9 +19,27 @@ class EleveController extends Controller
         $eleves = Eleve::query()
             ->with(['classe', 'option', 'sessionScolaire'])
             ->when($request->boolean('actifs'), fn ($q) => $q->actifs())
+            ->when($request->filled('reinscrit'), function ($q) use ($request) {
+                if ($request->boolean('reinscrit')) {
+                    // « Réinscriptions » : dossier recopié dans la nouvelle année
+                    // (est_reinscrit) OU ancien dossier déjà transféré (statut
+                    // 'reinscrit' côté source).
+                    $q->where(fn ($q) => $q->where('est_reinscrit', true)->orWhere('statut', 'reinscrit'));
+                } else {
+                    // « Nouvelles inscriptions » : ni recopiés, ni les anciens dossiers
+                    // déjà transférés (statut 'reinscrit' du côté source). Par défaut,
+                    // uniquement ceux de la session active (une année précise affichée
+                    // dans la barre de filtrage prime sur la session active).
+                    $q->where('est_reinscrit', false)->where('statut', 'actif');
+                    if (! $request->filled('session_scolaire_id')) {
+                        $q->whereHas('sessionScolaire', fn ($q) => $q->where('est_active', true));
+                    }
+                }
+            })
             ->when($request->filled('section'), fn ($q) => $q->where('section', $request->section))
             ->when($request->filled('classe_id'), fn ($q) => $q->where('classe_id', $request->classe_id))
             ->when($request->filled('option_id'), fn ($q) => $q->where('option_id', $request->option_id))
+            ->when($request->filled('session_scolaire_id'), fn ($q) => $q->where('session_scolaire_id', $request->session_scolaire_id))
             ->when($request->filled('sexe'), fn ($q) => $q->where('sexe', $request->sexe))
             ->when($request->filled('search'), function ($q) use ($request) {
                 $term = '%'.$request->search.'%';

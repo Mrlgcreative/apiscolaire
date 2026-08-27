@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Middleware\HandleCors;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
@@ -22,7 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectGuestsTo(fn () => null);
 
         // CORS pour /api/* (config/cors.php)
-        $middleware->api(prepend: [\Illuminate\Http\Middleware\HandleCors::class]);
+        $middleware->api(prepend: [HandleCors::class]);
 
         $middleware->alias([
             'institution' => ResolveInstitution::class,

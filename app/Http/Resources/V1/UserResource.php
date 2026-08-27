@@ -15,6 +15,24 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'role' => $this->role,
             'institution' => new InstitutionResource($this->whenLoaded('institution')),
+            'professeur' => $this->whenLoaded('professeur', fn () => [
+                'id' => $this->professeur->id,
+                'nom' => $this->professeur->nom,
+                'prenom' => $this->professeur->prenom,
+            ]),
+            'enfants' => $this->whenLoaded('enfants', fn () => $this->enfants
+                ->filter(fn ($e) => $e->statut === 'actif')
+                ->map(fn ($e) => [
+                    'id' => $e->id,
+                    'matricule' => $e->matricule,
+                    'nom_complet' => $e->nom_complet,
+                    'section' => $e->section?->value,
+                    'statut' => $e->statut,
+                    'classe' => $e->relationLoaded('classe') && $e->classe
+                        ? ['id' => $e->classe->id, 'nom' => $e->classe->nom]
+                        : null,
+                ])
+                ->values()),
             'image' => $this->image,
             'telephone' => $this->telephone,
             'adresse' => $this->adresse,

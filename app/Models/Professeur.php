@@ -15,6 +15,7 @@ class Professeur extends Model
 
     protected $fillable = [
         'nom', 'prenom', 'contact', 'email', 'adresse', 'date_embauche', 'user_id',
+        'institution_id',
     ];
 
     protected function casts(): array

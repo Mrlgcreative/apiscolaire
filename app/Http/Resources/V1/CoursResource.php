@@ -14,6 +14,7 @@ class CoursResource extends JsonResource
             'titre' => $this->titre,
             'description' => $this->description,
             'section' => $this->section,
+            'domaine' => $this->domaine?->value,
             'coefficient' => $this->coefficient,
             'heures_semaine' => $this->heures_semaine,
             'professeur' => new ProfesseurResource($this->whenLoaded('professeur')),

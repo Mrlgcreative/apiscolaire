@@ -12,7 +12,7 @@ class Absence extends Model
     use BelongsToInstitution;
     use HasUuids;
 
-    protected $fillable = ['eleve_id', 'date_absence', 'motif', 'justifiee'];
+    protected $fillable = ['eleve_id', 'date_absence', 'motif', 'justifiee', 'institution_id'];
 
     protected function casts(): array
     {

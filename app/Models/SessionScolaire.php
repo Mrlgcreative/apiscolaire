@@ -21,6 +21,11 @@ class SessionScolaire extends Model
         ];
     }
 
+    public function mois(): HasMany
+    {
+        return $this->hasMany(Mois::class);
+    }
+
     public function eleves(): HasMany
     {
         return $this->hasMany(Eleve::class);

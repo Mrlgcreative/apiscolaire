@@ -22,6 +22,7 @@ class EleveResource extends JsonResource
             'adresse' => $this->adresse,
             'section' => $this->section,
             'statut' => $this->statut,
+            'est_reinscrit' => $this->est_reinscrit,
             'photo' => $this->photo,
             'institution' => new InstitutionResource($this->whenLoaded('institution')),
             'option' => new OptionResource($this->whenLoaded('option')),

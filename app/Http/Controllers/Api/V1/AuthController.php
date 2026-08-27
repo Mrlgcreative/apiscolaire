@@ -47,7 +47,17 @@ class AuthController extends Controller
 
     public function me(Request $request): UserResource
     {
-        return new UserResource($request->user()->load('institution'));
+        $user = $request->user()->load('institution');
+
+        if ($user->isProfesseur()) {
+            $user->loadMissing('professeur');
+        }
+
+        if ($user->isParent()) {
+            $user->loadMissing('enfants.classe');
+        }
+
+        return new UserResource($user);
     }
 
     public function logout(Request $request): JsonResponse

@@ -13,7 +13,7 @@ class Frais extends Model
     use BelongsToInstitution;
     use HasUuids;
 
-    protected $fillable = ['montant', 'description', 'section'];
+    protected $fillable = ['montant', 'description', 'section', 'institution_id'];
 
     protected function casts(): array
     {
