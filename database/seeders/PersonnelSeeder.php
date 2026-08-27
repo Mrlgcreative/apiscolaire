@@ -10,6 +10,7 @@ use App\Models\Institution;
 use App\Models\Option;
 use App\Models\Professeur;
 use App\Models\SessionScolaire;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class PersonnelSeeder extends Seeder
@@ -25,6 +26,12 @@ class PersonnelSeeder extends Seeder
             ['nom' => 'Mujing', 'prenom' => 'asnat', 'contact' => '+243 999099031', 'email' => 'ciella@mail.com', 'adresse' => 'AV. Mbembe, Q.KAMANYOLA No. 48'],
             ['nom' => 'KAPEND', 'prenom' => 'FABRICE', 'contact' => '+243 999099031', 'email' => 'moilui@gmail.com', 'adresse' => 'Kolwezi.manika, Moïse Tshombe, mbembe,48'],
         ])->map(fn (array $p) => Professeur::create([...$p, 'institution_id' => $csk->id]));
+
+        // Lier le premier prof à son compte user professeur
+        $profUser = User::where('username', 'prof-sky')->first();
+        if ($profUser) {
+            $profsCsk[0]->update(['user_id' => $profUser->id]);
+        }
 
         $classesCsk = collect([
             ['nom' => '1er', 'section' => 'maternelle', 'niveau' => '1ère', 'titulaire' => 'KAPEND FABRICE'],

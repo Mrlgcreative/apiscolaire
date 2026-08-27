@@ -65,6 +65,19 @@ class RpcGateway
         'absences.update' => ['PUT', '/absences/{absence}'],
         'absences.destroy' => ['DELETE', '/absences/{absence}'],
 
+        // Évaluations
+        'periodes.index' => ['GET', '/periodes'],
+        'periodes.store' => ['POST', '/periodes'],
+        'periodes.show' => ['GET', '/periodes/{periode}'],
+        'periodes.update' => ['PUT', '/periodes/{periode}'],
+        'periodes.destroy' => ['DELETE', '/periodes/{periode}'],
+        'notes.index' => ['GET', '/notes'],
+        'notes.store' => ['POST', '/notes'],
+        'notes.show' => ['GET', '/notes/{note}'],
+        'notes.update' => ['PUT', '/notes/{note}'],
+        'notes.destroy' => ['DELETE', '/notes/{note}'],
+        'bulletins.show' => ['GET', '/bulletins'],
+
         // Finances
         'frais.index' => ['GET', '/frais'],
         'frais.store' => ['POST', '/frais'],

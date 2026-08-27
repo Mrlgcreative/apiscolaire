@@ -41,5 +41,26 @@ class UserSeeder extends Seeder
                 'institution_id' => $institution->id,
             ]);
         }
+
+        // Professeur (user avec rôle) lié à un prof existant côté PersonnelSeeder
+        User::create([
+            'username' => 'prof-sky',
+            'email' => 'prof-sky@college.test',
+            'password' => 'password',
+            'role' => UserRole::Professeur,
+            'institution_id' => $csk->id,
+        ]);
+
+        // Parent 1 → N enfants
+        $parent = User::create([
+            'username' => 'parent-kasong',
+            'email' => 'parent-kasong@college.test',
+            'password' => 'password',
+            'role' => UserRole::Parent,
+            'institution_id' => $csk->id,
+        ]);
+
+        // Liaison parent-enfants faite dans PersonnelSeeder après création des élèves (via DemoSeeder ou ici si élèves existent)
+        // On garde le user parent, le rattachement se fait dans DemoSeeder/PeriodeSeeder si besoin
     }
 }

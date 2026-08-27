@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Concerns\BelongsToInstitution;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Professeur extends Model
@@ -13,7 +14,7 @@ class Professeur extends Model
     use HasUuids;
 
     protected $fillable = [
-        'nom', 'prenom', 'contact', 'email', 'adresse', 'date_embauche',
+        'nom', 'prenom', 'contact', 'email', 'adresse', 'date_embauche', 'user_id',
     ];
 
     protected function casts(): array
@@ -31,5 +32,10 @@ class Professeur extends Model
     public function classesTitulaires(): HasMany
     {
         return $this->hasMany(Classe::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

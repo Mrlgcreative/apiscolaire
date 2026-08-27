@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\AbsenceController;
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\BulletinController;
 use App\Http\Controllers\Api\V1\ClasseController;
 use App\Http\Controllers\Api\V1\CoursController;
 use App\Http\Controllers\Api\V1\EleveController;
@@ -9,8 +10,10 @@ use App\Http\Controllers\Api\V1\FraisController;
 use App\Http\Controllers\Api\V1\GatewayController;
 use App\Http\Controllers\Api\V1\InstitutionController;
 use App\Http\Controllers\Api\V1\MoisController;
+use App\Http\Controllers\Api\V1\NoteController;
 use App\Http\Controllers\Api\V1\OptionController;
 use App\Http\Controllers\Api\V1\PaiementFraisController;
+use App\Http\Controllers\Api\V1\PeriodeController;
 use App\Http\Controllers\Api\V1\ProfesseurController;
 use App\Http\Controllers\Api\V1\SessionScolaireController;
 use App\Http\Controllers\Api\V1\UserController;
@@ -47,6 +50,11 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('professeurs', ProfesseurController::class);
         Route::apiResource('cours', CoursController::class)->parameters(['cours' => 'cours']);
         Route::apiResource('absences', AbsenceController::class);
+
+        // Évaluations
+        Route::apiResource('periodes', PeriodeController::class)->parameters(['periodes' => 'periode']);
+        Route::apiResource('notes', NoteController::class)->parameters(['notes' => 'note']);
+        Route::get('/bulletins', [BulletinController::class, 'show']);
 
         // Finances
         Route::apiResource('frais', FraisController::class)->parameters(['frais' => 'frais']);

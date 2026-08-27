@@ -9,6 +9,8 @@ enum UserRole: string
     case Directrice = 'directrice';
     case Prefet = 'prefet';
     case Comptable = 'comptable';
+    case Professeur = 'professeur';
+    case Parent = 'parent';
 
     public static function values(): array
     {

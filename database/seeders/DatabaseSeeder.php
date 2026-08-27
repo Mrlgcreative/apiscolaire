@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
             ReferentielSeeder::class,
             UserSeeder::class,
             PersonnelSeeder::class,
+            PeriodeSeeder::class,
             DemoSeeder::class,
         ]);
     }
