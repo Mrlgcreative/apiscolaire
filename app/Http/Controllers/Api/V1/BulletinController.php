@@ -16,11 +16,17 @@ class BulletinController extends Controller
     {
         $request->validate([
             'eleve_id' => ['required', 'uuid', 'exists:eleves,id'],
-            'periode_id' => ['required', 'uuid', 'exists:periodes,id'],
+            'periode_id' => ['required_unless:all_periodes,1', 'nullable', 'uuid', 'exists:periodes,id'],
+            'all_periodes' => ['sometimes', 'boolean'],
         ]);
 
         $eleve = Eleve::with(['classe', 'institution'])->findOrFail($request->eleve_id);
-        $periode = Periode::with(['enfants', 'parent'])->findOrFail($request->periode_id);
+        $allPeriodes = $request->boolean('all_periodes');
+
+        $periode = null;
+        if (! $allPeriodes) {
+            $periode = Periode::with(['enfants', 'parent'])->findOrFail($request->periode_id);
+        }
 
         // Parent ne voit que ses enfants
         $user = $request->user();
@@ -28,8 +34,17 @@ class BulletinController extends Controller
             abort(403, 'Accès refusé.');
         }
 
-        // Résoudre les périodes feuilles (1P,2P...) selon semestre/trimestre demandé
-        $periodesFeuilles = $this->resolveFeuilles($periode);
+        // Résoudre les périodes feuilles (1P,2P...) : enfants du semestre/trimestre demandé,
+        // ou toutes les feuilles de la section pour la vue annuelle (tous les trimestres)
+        $periodesFeuilles = $allPeriodes
+            ? Periode::query()
+                ->where('institution_id', $eleve->institution_id)
+                ->when(in_array($eleve->section?->value, ['maternelle', 'primaire', 'secondaire']),
+                    fn ($q) => $q->where('section', $eleve->section->value))
+                ->where('type', 'periode')
+                ->orderBy('ordre')
+                ->get()
+            : $this->resolveFeuilles($periode);
 
         // Tous les cours de la classe de l'élève (ou tous les cours de l'école si pas de classe)
         $coursList = Cours::where('institution_id', $eleve->institution_id)
@@ -103,6 +118,7 @@ class BulletinController extends Controller
             'data' => [
                 'eleve' => $eleveArray,
                 'periode' => $periode,
+                'all_periodes' => $allPeriodes,
                 'periodes_feuilles' => $periodesFeuilles,
                 'lignes' => $lignes,
                 'totalGeneral' => round($totalGeneral, 2),
