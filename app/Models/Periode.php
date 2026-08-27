@@ -14,7 +14,7 @@ class Periode extends Model
     use HasUuids;
 
     protected $fillable = [
-        'institution_id', 'session_scolaire_id', 'parent_id', 'type', 'code', 'libelle', 'ordre', 'date_debut', 'date_fin', 'est_cloturee',
+        'institution_id', 'session_scolaire_id', 'parent_id', 'type', 'section', 'code', 'libelle', 'ordre', 'date_debut', 'date_fin', 'est_cloturee',
     ];
 
     protected function casts(): array

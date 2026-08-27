@@ -18,6 +18,7 @@ class StorePeriodeRequest extends FormRequest
             'session_scolaire_id' => ['required', 'uuid', 'exists:sessions_scolaires,id'],
             'parent_id' => ['nullable', 'uuid', new TenantExists('periodes')],
             'type' => ['required', 'in:semestre,trimestre,periode'],
+            'section' => ['nullable', 'in:maternelle,primaire,secondaire'],
             'code' => ['required', 'string', 'max:20'],
             'libelle' => ['required', 'string', 'max:100'],
             'ordre' => ['required', 'integer', 'min:1', 'max:20'],

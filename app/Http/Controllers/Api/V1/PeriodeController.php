@@ -17,6 +17,7 @@ class PeriodeController extends Controller
         $periodes = Periode::query()
             ->with(['parent', 'enfants'])
             ->when($request->filled('type'), fn ($q) => $q->where('type', $request->type))
+            ->when($request->filled('section'), fn ($q) => $q->where('section', $request->section))
             ->when($request->filled('session_scolaire_id'), fn ($q) => $q->where('session_scolaire_id', $request->session_scolaire_id))
             ->orderBy('ordre')
             ->get();

@@ -97,9 +97,11 @@ class BulletinController extends Controller
             $rang = array_search($eleve->id, array_keys($moyennes)) + 1;
         }
 
+        $eleveArray = array_merge($eleve->toArray(), ['nom_complet' => $eleve->nom_complet]);
+
         return response()->json([
             'data' => [
-                'eleve' => $eleve,
+                'eleve' => $eleveArray,
                 'periode' => $periode,
                 'periodes_feuilles' => $periodesFeuilles,
                 'lignes' => $lignes,

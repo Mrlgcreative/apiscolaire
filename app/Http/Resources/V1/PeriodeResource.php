@@ -15,6 +15,7 @@ class PeriodeResource extends JsonResource
             'session_scolaire' => new SessionScolaireResource($this->whenLoaded('sessionScolaire')),
             'parent' => new self($this->whenLoaded('parent')),
             'type' => $this->type,
+            'section' => $this->section,
             'code' => $this->code,
             'libelle' => $this->libelle,
             'ordre' => $this->ordre,
